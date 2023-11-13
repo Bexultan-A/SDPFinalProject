@@ -1,14 +1,21 @@
-import characterCreation.Character;
-import characterCreation.decorators.ElfDecorator;
-import characterCreation.interfaces.ICharacter;
+import battle.Battle;
+import battle.BattleUI;
+import characters.Character;
+import characters.decorators.classDecorators.MageDecorator;
+import characters.decorators.classDecorators.WarriorDecorator;
+import characters.decorators.race.ElfDecorator;
+import characters.decorators.race.OrcDecorator;
+import characters.interfaces.ICharacter;
 
 public class Main {
     public static void main(String[] args) {
-        ICharacter character = new Character("smbd",200,3,3,3);
-        ICharacter elf = new ElfDecorator(character);
+        ICharacter character = new Character("Player", 200,100,5,5,5);
+        ICharacter enemy = new Character("Enemy", 200,100,5,5,5);
 
-        System.out.println(character.getDescription() + " Intellect: " + character.getIntellect() + " Mana: " + character.getMana());
-        System.out.println();
-        System.out.println(elf.getDescription() + " Intellect: " + elf.getIntellect() + " Mana: " + elf.getMana());
+        character = new MageDecorator(new ElfDecorator(character));
+        enemy = new WarriorDecorator(new OrcDecorator(enemy));
+
+        BattleUI battle = new BattleUI(new Battle(character, enemy));
+        battle.startBattle();
     }
 }
