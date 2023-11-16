@@ -16,6 +16,9 @@ public class BattleUI {
     }
 
     public void startBattle() {
+        System.out.println("Player: " + battle.getPlayer().getDescription());
+        System.out.println("Enemy: " + battle.getEnemy().getDescription());
+
         System.out.println("Battle has been started!!!");
         chooseStrategy();
         while (true) {

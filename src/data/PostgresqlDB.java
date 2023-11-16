@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class PostgresqlDB implements IDB {
     @Override
     public Connection getConnection() throws SQLException, ClassNotFoundException {
-        String connectionURL = "jdbc:postgresql://localhost:5432/shop";
+        String connectionURL = "jdbc:postgresql://localhost:5432/fantasy";
         try {
             Class.forName("org.postgresql.Driver");
 

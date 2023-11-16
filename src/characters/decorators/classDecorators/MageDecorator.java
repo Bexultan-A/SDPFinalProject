@@ -9,6 +9,11 @@ public class MageDecorator extends BaseClassDecorator {
     }
 
     @Override
+    public String getDescription() {
+        return super.getDescription() + " Class: mage";
+    }
+
+    @Override
     public double calculateAttack() {
         return super.calculateAttack() + super.getIntellect()*3;
     }

@@ -7,4 +7,9 @@ public class GoblinDecorator extends BaseRaceDecorator {
     public GoblinDecorator(ICharacter character) {
         super(character);
     }
+
+    @Override
+    public String getDescription() {
+        return super.getDescription() + " Race: Goblin";
+    }
 }

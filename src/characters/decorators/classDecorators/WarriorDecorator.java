@@ -9,6 +9,11 @@ public class WarriorDecorator extends BaseClassDecorator {
     }
 
     @Override
+    public String getDescription() {
+        return super.getDescription() + " Class: warrior";
+    }
+
+    @Override
     public double calculateAttack() {
         return super.calculateAttack() + super.getStrength()*3;
     }
