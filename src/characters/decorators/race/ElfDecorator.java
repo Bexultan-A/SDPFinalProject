@@ -1,9 +1,8 @@
 package characters.decorators.race;
-
-import characters.baseDecorators.BaseRaceDecorator;
+import characters.baseDecorators.CharacterDecorator;
 import characters.interfaces.ICharacter;
 
-public class ElfDecorator extends BaseRaceDecorator {
+public class ElfDecorator extends CharacterDecorator {
     double intellectBonus = super.getIntellect() * 2;
     public ElfDecorator(ICharacter character) {
         super(character);

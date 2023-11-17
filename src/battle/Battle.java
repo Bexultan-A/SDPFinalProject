@@ -1,13 +1,19 @@
 package battle;
 
+import battle.battleStrategies.DefenceStrategy;
+import battle.battleStrategies.FightingStrategy;
+import battle.battleStrategies.NoStrategy;
+import battle.interfaces.IFightingStrategy;
+import characters.interfaces.ICharacter;
 import battle.battleStrategies.NoStrategy;
 import battle.interfaces.IFightingStrategy;
 import characters.interfaces.ICharacter;
 
+import static com.sun.management.HotSpotDiagnosticMXBean.ThreadDumpFormat.JSON;
+
 public class Battle {
-    ICharacter player;
-    ICharacter enemy;
-    IFightingStrategy fightingStrategy;
+    private ICharacter player;
+    private ICharacter enemy;
 
     public ICharacter getPlayer() {
         return player;
@@ -20,13 +26,14 @@ public class Battle {
     public Battle(ICharacter player, ICharacter enemy) {
         this.player = player;
         this.enemy = enemy;
-        this.fightingStrategy = new NoStrategy();
     }
 
-    public void setFightingStrategy(IFightingStrategy fightingStrategy) {
-        this.fightingStrategy = fightingStrategy;
-    }
     public void attack(ICharacter attacker, ICharacter enemy) {
-        fightingStrategy.attack(attacker, enemy);
+        attacker.getFightingStrategy().attack(attacker, enemy);
+    }
+
+    public void resetBattle(ICharacter character, ICharacter newEnemy) {
+        this.player = character;
+        this.enemy = newEnemy;
     }
 }

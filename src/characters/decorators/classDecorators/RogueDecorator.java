@@ -1,9 +1,8 @@
 package characters.decorators.classDecorators;
-
-import characters.baseDecorators.BaseClassDecorator;
+import characters.baseDecorators.CharacterDecorator;
 import characters.interfaces.ICharacter;
 
-public class RogueDecorator extends BaseClassDecorator {
+public class RogueDecorator extends CharacterDecorator {
     public RogueDecorator(ICharacter character) {
         super(character);
     }

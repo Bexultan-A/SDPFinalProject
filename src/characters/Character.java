@@ -1,5 +1,7 @@
 package characters;
 
+import battle.battleStrategies.NoStrategy;
+import battle.interfaces.IFightingStrategy;
 import characters.interfaces.ICharacter;
 
 public class Character implements ICharacter {
@@ -10,14 +12,17 @@ public class Character implements ICharacter {
     double strength;
     double agility;
     double intellect;
+    IFightingStrategy fightingStrategy;
 
     public Character(String name, double HP, double armor, double strength, double agility, double intellect) {
         this.name = name;
         this.HP = HP;
+        this.armor = armor;
         this.strength = strength;
         this.agility = agility;
         this.intellect = intellect;
         this.mana = this.intellect * 20;
+        this.fightingStrategy = new NoStrategy();
     }
 
     @Override
@@ -96,5 +101,18 @@ public class Character implements ICharacter {
     public void setIntellect(double intellect) {
         this.intellect = intellect;
         setMana(intellect * 20);
+    }
+
+    public IFightingStrategy getFightingStrategy() {
+        return fightingStrategy;
+    }
+
+    public void setFightingStrategy(IFightingStrategy fightingStrategy) {
+        this.fightingStrategy = fightingStrategy;
+    }
+
+    @Override
+    public void update() {
+        System.out.println("Congratulations " + getName() + "You've reached next level of the tower" );
     }
 }

@@ -1,9 +1,9 @@
 package characters.decorators.race;
 
-import characters.baseDecorators.BaseRaceDecorator;
+import characters.baseDecorators.CharacterDecorator;
 import characters.interfaces.ICharacter;
 
-public class GoblinDecorator extends BaseRaceDecorator {
+public class GoblinDecorator extends CharacterDecorator {
     public GoblinDecorator(ICharacter character) {
         super(character);
     }

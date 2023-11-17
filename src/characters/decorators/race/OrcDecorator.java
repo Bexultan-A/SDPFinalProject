@@ -1,9 +1,9 @@
 package characters.decorators.race;
 
-import characters.baseDecorators.BaseRaceDecorator;
+import characters.baseDecorators.CharacterDecorator;
 import characters.interfaces.ICharacter;
 
-public class OrcDecorator extends BaseRaceDecorator {
+public class OrcDecorator extends CharacterDecorator {
     double strengthBonus = super.getStrength() * 2;
     public OrcDecorator(ICharacter character) {
         super(character);

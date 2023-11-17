@@ -1,9 +1,8 @@
 package characters.decorators.classDecorators;
-
-import characters.baseDecorators.BaseClassDecorator;
+import characters.baseDecorators.CharacterDecorator;
 import characters.interfaces.ICharacter;
 
-public class MageDecorator extends BaseClassDecorator {
+public class MageDecorator extends CharacterDecorator {
     public MageDecorator(ICharacter character) {
         super(character);
     }

@@ -4,17 +4,23 @@ import characterCreation.interfaces.ICharacterFactory;
 import characters.interfaces.ICharacter;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class EnemyCreator {
-    String[] races = {"elf", "orc", "goblin"};
-    String[] classes = {"mage", "rogue", "warrior"};
+    private final ICharacterFactory factory;
+
+    public EnemyCreator(ICharacterFactory factory) {
+        this.factory = factory;
+    }
 
     public ICharacter createEnemy() {
-        ICharacterFactory factory = new CharacterFactory();
-        ICharacter character;
-        character = factory.createCharacter("Enemy",200,100,5,5,5);
-        character = factory.decorator(races[(int) (Math.random()*3)], character);
-        character = factory.decorator(classes[(int) (Math.random()*3)], character);
-        return character;
+        String[] races = {"elf", "orc", "goblin"};
+        String[] classes = {"mage", "rogue", "warrior"};
+
+        ICharacter enemy = factory.createCharacter("Enemy", 200, 100, 5, 5, 5);
+        String race = races[new Random().nextInt(races.length)];
+        enemy = factory.decorator(race, enemy);
+        String enemyClass = classes[new Random().nextInt(classes.length)];
+        return factory.decorator(enemyClass, enemy);
     }
 }

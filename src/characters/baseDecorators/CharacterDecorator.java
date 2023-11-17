@@ -1,11 +1,12 @@
 package characters.baseDecorators;
 
+import battle.interfaces.IFightingStrategy;
 import characters.interfaces.ICharacter;
 
-public class BaseRaceDecorator implements ICharacter {
+public class CharacterDecorator implements ICharacter {
     ICharacter character;
 
-    public BaseRaceDecorator(ICharacter character) {
+    public CharacterDecorator(ICharacter character) {
         this.character = character;
     }
 
@@ -97,5 +98,20 @@ public class BaseRaceDecorator implements ICharacter {
     @Override
     public void setIntellect(double intellect) {
         character.setIntellect(intellect);
+    }
+
+    @Override
+    public IFightingStrategy getFightingStrategy() {
+        return character.getFightingStrategy();
+    }
+
+    @Override
+    public void setFightingStrategy(IFightingStrategy fightingStrategy) {
+        character.setFightingStrategy(fightingStrategy);
+    }
+
+    @Override
+    public void update() {
+        System.out.println("Congratulations " + getName() + "You've reached next level of the tower" );
     }
 }

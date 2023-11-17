@@ -15,7 +15,10 @@ public class FightingStrategy implements IFightingStrategy {
 
     @Override
     public void resetStats(ICharacter character) {
-
+        character.setArmor(character.getArmor()*1.67);
+        character.setStrength(character.getStrength()*0.83);
+        character.setAgility(character.getAgility()*0.83);
+        character.setIntellect(character.getIntellect()*0.83);
     }
 
     private void changeStats(ICharacter character) {
