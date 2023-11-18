@@ -1,8 +1,20 @@
 package battle;
 
+import battle.adapters.MageAttackAdapter;
+import battle.adapters.RogueAttackAdapter;
+import battle.adapters.WarriorAttackAdapter;
 import battle.battleStrategies.*;
+import battle.classFight.enemy.EnemyMageAttack;
+import battle.classFight.enemy.EnemyRogueAttack;
+import battle.classFight.enemy.EnemyWarriorAttack;
+import battle.classFight.player.MageAttack;
+import battle.classFight.player.RogueAttack;
+import battle.classFight.player.WarriorAttack;
+import battle.interfaces.IFightingStrategy;
+import characters.interfaces.ICharacter;
+
 import java.util.Scanner;
-import java.util.Random;
+
 public class BattleController {
     private final Battle battle;
     public static Scanner scanner = new Scanner(System.in);
@@ -11,17 +23,26 @@ public class BattleController {
     }
 
     public void chooseEnemyStrategy() {
-        int randomChoice = (int) (Math.random() * 3) + 1;
+        int randomChoice = (int) (Math.random() * 5) + 1;
         switch (randomChoice) {
-            case 1:
-                battle.getEnemy().setFightingStrategy(new FightingStrategy(battle.getEnemy()));
-                break;
-            case 2:
-                battle.getEnemy().setFightingStrategy(new DefenceStrategy(battle.getEnemy()));
-                break;
-            case 3:
-                battle.getEnemy().setFightingStrategy(new NoStrategy());
-                break;
+            case 1 -> {
+                if (battle.getEnemy().getDescription().contains("mage")) {
+                    MageAttack mageAttack = new EnemyMageAttack();
+                    battle.getEnemy().setFightingStrategy(new MageAttackAdapter(mageAttack));
+                } else if (battle.getEnemy().getDescription().contains("warrior")) {
+                    WarriorAttack warriorAttack = new EnemyWarriorAttack();
+                    battle.getEnemy().setFightingStrategy(new WarriorAttackAdapter(warriorAttack));
+                } else if (battle.getEnemy().getDescription().contains("rogue")) {
+                    RogueAttack rogueAttack = new EnemyRogueAttack();
+                    battle.getEnemy().setFightingStrategy(new RogueAttackAdapter(rogueAttack));
+                } else {
+                    battle.getEnemy().setFightingStrategy(new SpecialAttackStrategy());
+                }
+            }
+            case 2 -> battle.getEnemy().setFightingStrategy(new DefenceStrategy());
+            case 3 -> battle.getEnemy().setFightingStrategy(new HealPotionStrategy());
+            case 4 -> battle.getEnemy().setFightingStrategy(new CommonAttackStrategy());
+            case 5 -> battle.getEnemy().setFightingStrategy(new ManaPotionStrategy());
         }
     }
 
@@ -29,49 +50,61 @@ public class BattleController {
         int choice;
         System.out.println("""
                 Choose your strategy:\s
-                1. Fighting
-                2. Defence
+                1. Attack
+                2. Special Attack
+                3. Defence
+                4. Heal
+                5. Mana Potion
                 """);
         choice = scanner.nextInt();
         switch (choice) {
-            case 1:
-                battle.getPlayer().setFightingStrategy(new FightingStrategy(battle.getPlayer()));
-                break;
-            case 2:
-                battle.getPlayer().setFightingStrategy(new DefenceStrategy(battle.getPlayer()));
-                break;
+            case 1 -> {
+                battle.getPlayer().setFightingStrategy(new CommonAttackStrategy());
+            }
+            case 2 -> {
+                if (battle.getPlayer().getDescription().contains("mage")) {
+                    MageAttack mageAttack = new MageAttack();
+                    battle.getPlayer().setFightingStrategy(new MageAttackAdapter(mageAttack));
+                } else if (battle.getPlayer().getDescription().contains("warrior")) {
+                    WarriorAttack warriorAttack = new WarriorAttack();
+                    battle.getPlayer().setFightingStrategy(new WarriorAttackAdapter(warriorAttack));
+                } else if (battle.getPlayer().getDescription().contains("rogue")) {
+                    RogueAttack rogueAttack = new RogueAttack();
+                    battle.getPlayer().setFightingStrategy(new RogueAttackAdapter(rogueAttack));
+                } else {
+                    battle.getPlayer().setFightingStrategy(new SpecialAttackStrategy());
+                }
+            }
+            case 3 -> battle.getPlayer().setFightingStrategy(new DefenceStrategy());
+            case 4 -> battle.getPlayer().setFightingStrategy(new HealPotionStrategy());
+            case 5 -> battle.getPlayer().setFightingStrategy(new ManaPotionStrategy());
+            default -> {
+                System.out.println("No such option");
+                chooseStrategy();
+            }
         }
     }
 
-    public void playerAttack() {
-        battle.attack(battle.getPlayer(), battle.getEnemy());
-        if (battle.getEnemy().getHP() < 0) battle.getEnemy().setHP(0);
-        System.out.println(battle.getPlayer().getName() +
-                " has attacked " + battle.getEnemy().getName() +
-                " on " + battle.getPlayer().calculateAttack() + " damage " +
-                "\n" + battle.getEnemy().getName() + " now has " +
-                battle.getEnemy().getHP() + " HP");
+    public void playerTurn() {
+        chooseStrategy();
+        battle.getPlayer().getFightingStrategy().PerformAction(battle.getPlayer(), battle.getEnemy());
     }
 
-    public void enemyAttack() {
-        battle.attack(battle.getEnemy(), battle.getPlayer());
-        if (battle.getPlayer().getHP() < 0) battle.getPlayer().setHP(0);
-        System.out.println(battle.getEnemy().getName() +
-                " has attacked " + battle.getPlayer().getName() +
-                " on " + battle.getEnemy().calculateAttack() + " damage " +
-                "\n" + battle.getPlayer().getName() + " now has " +
-                battle.getPlayer().getHP() + " HP");
+    public void enemyTurn() {
+        chooseEnemyStrategy();
+        battle.getEnemy().getFightingStrategy().PerformAction(battle.getEnemy(), battle.getPlayer());
     }
 
     public boolean startBattle() {
+        resetStats(battle.getPlayer());
         System.out.println("Player: " + battle.getPlayer().getDescription());
         System.out.println("Enemy: " + battle.getEnemy().getDescription());
         System.out.println("Battle has been started!!!");
 
         while (battle.getPlayer().getHP() > 0 && battle.getEnemy().getHP() > 0) {
-            chooseEnemyStrategy();
-            chooseStrategy();
-            playerAttack();
+
+            resetArmorForCharacter(battle.getPlayer());
+            playerTurn();
 
             if (battle.getPlayer().getHP() <= 0) {
                 System.out.println(battle.getPlayer().getName() + " IS DEFEATED");
@@ -79,7 +112,8 @@ public class BattleController {
                 return false;
             }
 
-            enemyAttack();
+            resetArmorForCharacter(battle.getEnemy());
+            enemyTurn();
 
             if (battle.getEnemy().getHP() <= 0) {
                 System.out.println(battle.getEnemy().getName() + " IS DEFEATED");
@@ -88,5 +122,14 @@ public class BattleController {
             }
         }
         return false;
+    }
+
+    public void resetArmorForCharacter(ICharacter character) {
+        character.setArmor(100);
+    }
+    public void resetStats(ICharacter character) {
+        character.setHP(200);
+        character.setArmor(100);
+        character.setMana(character.getIntellect()*20);
     }
 }

@@ -23,9 +23,9 @@ public class TowerEventManager implements ITowerEvent {
     }
 
     @Override
-    public void notifyAdventurers() {
+    public void notifyAdventurers(String message) {
         for (IAdventurer adventurer : adventurers) {
-            adventurer.update();
+            adventurer.update(message);
         }
     }
 }

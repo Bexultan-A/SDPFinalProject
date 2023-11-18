@@ -1,6 +1,6 @@
 package characters;
 
-import battle.battleStrategies.NoStrategy;
+import battle.battleStrategies.CommonAttackStrategy;
 import battle.interfaces.IFightingStrategy;
 import characters.interfaces.ICharacter;
 
@@ -22,12 +22,12 @@ public class Character implements ICharacter {
         this.agility = agility;
         this.intellect = intellect;
         this.mana = this.intellect * 20;
-        this.fightingStrategy = new NoStrategy();
+        this.fightingStrategy = new CommonAttackStrategy();
     }
 
     @Override
     public String getDescription() {
-        return "Base character";
+        return getName();
     }
 
     @Override
@@ -112,7 +112,7 @@ public class Character implements ICharacter {
     }
 
     @Override
-    public void update() {
-        System.out.println("Congratulations " + getName() + "You've reached next level of the tower" );
+    public void update(String message) {
+        System.out.println(getName() + " " + message);
     }
 }

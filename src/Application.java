@@ -49,8 +49,11 @@ public class Application {
         BattleController battleController = new BattleController(battle);
 
 
-        while (battleController.startBattle()) {
-            // Continue the game loop if the player wants to play again
+        while (true) {
+            boolean win = battleController.startBattle();
+            if (!win) {
+                defeat();
+            }
             tower.nextLevel();
             System.out.println("""
                     Do you want to continue to play?:
@@ -60,7 +63,8 @@ public class Application {
             switch (answer) {
                 case 1 -> {
                     ICharacter newEnemy = enemyCreator.createEnemy();
-                    battle.resetBattle(tower.getCharacter(), newEnemy);
+                    battle = new Battle(tower.getCharacter(), newEnemy);
+                    battleController = new BattleController(battle);
                 }
                 case 2 -> {
                     SaveGame();
@@ -68,7 +72,6 @@ public class Application {
                 }
                 default -> System.out.println("Error: No such option!!!");
             }
-            defeat();
         }
     }
 
@@ -77,7 +80,7 @@ public class Application {
         CharacterCreationManager characterCreationManager = new CharacterCreationManager(factory);
         ICharacter character = characterCreationManager.createCharacter();
 
-        tower = new Tower(0,character);
+        tower = new Tower(1,character);
     }
 
     public void ContinueGame() {

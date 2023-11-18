@@ -1,5 +1,5 @@
 package characters.interfaces;
 
 public interface IAdventurer {
-    void update();
+    void update(String message);
 }

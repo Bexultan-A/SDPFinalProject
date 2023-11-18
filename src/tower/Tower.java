@@ -25,7 +25,13 @@ public class Tower {
 
     public void setLevel(int level) {
         this.level = level;
-        towerEventManager.notifyAdventurers();
+        if (getLevel() % 10 == 0) {
+            towerEventManager.notifyAdventurers("Congratulations, You've reached " + getLevel() +
+                    "th level of the tower, later there will be some rewards");
+        } else {
+            towerEventManager.notifyAdventurers("Congratulations, You've reached next level of the tower, level: " + getLevel());
+        }
+
     }
 
     public ICharacter getCharacter() {

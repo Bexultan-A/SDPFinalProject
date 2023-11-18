@@ -111,7 +111,7 @@ public class CharacterDecorator implements ICharacter {
     }
 
     @Override
-    public void update() {
-        System.out.println("Congratulations " + getName() + "You've reached next level of the tower" );
+    public void update(String message) {
+        character.update(message);
     }
 }
