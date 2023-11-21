@@ -67,9 +67,7 @@ public class Application {
         int answer = scanner.nextInt();
         switch (answer) {
             case 1 -> {
-                ICharacter newEnemy = enemyCreator.createEnemy();
-                battle = new Battle(tower.getCharacter(), newEnemy);
-                battleController = new BattleController(battle);
+                startBattle();
             }
             case 2 -> {
                 SaveGame();

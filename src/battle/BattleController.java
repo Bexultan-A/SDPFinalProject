@@ -86,11 +86,13 @@ public class BattleController {
     }
 
     public void playerTurn() {
+        System.out.println("YOUR TURN!!!");
         chooseStrategy();
         battle.getPlayer().getFightingStrategy().PerformAction(battle.getPlayer(), battle.getEnemy());
     }
 
     public void enemyTurn() {
+        System.out.println("ENEMY TURN!!!");
         chooseEnemyStrategy();
         battle.getEnemy().getFightingStrategy().PerformAction(battle.getEnemy(), battle.getPlayer());
     }
