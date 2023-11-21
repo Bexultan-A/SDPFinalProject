@@ -1,7 +1,7 @@
 # SDPFinalProject
 
 UML DIAGRAM:
- ![UML DIAGRAM](https://github.com/Bexultan-A/SDPFinalProject/edit/main/UML.png)
+ ![UML DIAGRAM](UML.png?raw=true)
 
 # IMPLEMENTATIONS OF DESIGN PATTERNS
 ## Description:
