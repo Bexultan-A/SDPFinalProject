@@ -1,5 +1,13 @@
+
+import data.PostgresqlDB;
+import data.interfaces.IDB;
+
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        IDB db = PostgresqlDB.getInstance();
+        Application application = new Application(db);
+
+        application.startGame();
     }
 }
