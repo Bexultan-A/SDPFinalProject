@@ -55,22 +55,29 @@ public class Application {
                 defeat();
             }
             tower.nextLevel();
-            System.out.println("""
+            endOfBattle(enemyCreator,battle,battleController);
+        }
+    }
+
+    private void endOfBattle(EnemyCreator enemyCreator, Battle battle, BattleController battleController) {
+        System.out.println("""
                     Do you want to continue to play?:
                      1. Yes, continue
                      2. No, save my progress and quit""");
-            int answer = scanner.nextInt();
-            switch (answer) {
-                case 1 -> {
-                    ICharacter newEnemy = enemyCreator.createEnemy();
-                    battle = new Battle(tower.getCharacter(), newEnemy);
-                    battleController = new BattleController(battle);
-                }
-                case 2 -> {
-                    SaveGame();
-                    EndGame();
-                }
-                default -> System.out.println("Error: No such option!!!");
+        int answer = scanner.nextInt();
+        switch (answer) {
+            case 1 -> {
+                ICharacter newEnemy = enemyCreator.createEnemy();
+                battle = new Battle(tower.getCharacter(), newEnemy);
+                battleController = new BattleController(battle);
+            }
+            case 2 -> {
+                SaveGame();
+                EndGame();
+            }
+            default -> {
+                System.out.println("Error: No such option!!!");
+                endOfBattle(enemyCreator,battle,battleController);
             }
         }
     }
@@ -86,11 +93,22 @@ public class Application {
     public void ContinueGame() {
         repository.showEverything();
         System.out.println("Enter the id of tower you want to continue: ");
-        int id = scanner.nextInt();
-        ICharacter character = repository.getCharacter(id);
-        int level = repository.getTowerLevel(id);
+        try {
+            int id = scanner.nextInt();
+            ICharacter character = repository.getCharacter(id);
+            if (character == null) {
+                System.out.println("ERROR, id is out of range, try again!");
+                scanner.nextLine();
+                startGame();
+            }
+            int level = repository.getTowerLevel(id);
 
-        tower = new Tower(level,character);
+            tower = new Tower(level,character);
+        } catch (Exception e) {
+            System.out.println("ERROR, try again!!");
+            scanner.nextLine();
+            startGame();
+        }
     }
 
     public void SaveGame() {

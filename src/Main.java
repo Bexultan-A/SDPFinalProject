@@ -5,7 +5,7 @@ import data.interfaces.IDB;
 
 public class Main {
     public static void main(String[] args) {
-        IDB db = new PostgresqlDB();
+        IDB db = PostgresqlDB.getInstance();
         Application application = new Application(db);
 
         application.startGame();
