@@ -20,12 +20,46 @@ public class CharacterCreationManager {
         String name = scanner.nextLine();
         ICharacter character = factory.createCharacter(name, 200, 100, 5, 5, 5);
 
-        System.out.println("Now, choose your race: elf, orc, or goblin");
-        String race = scanner.nextLine();
-        character = factory.decorator(race, character);
+        System.out.println("""
+                Now, choose your race:\s
+                 1. Elf
+                 2. Orc
+                 3. Goblin
+                """);
+        int answer = scanner.nextInt();
+        switch (answer) {
+            case 1 -> character = factory.decorator("elf", character);
+            case 2 -> character = factory.decorator("orc", character);
+            case 3 -> character = factory.decorator("goblin", character);
+            default -> {
+                System.out.println("NO SUCH OPTION!!!, TRY AGAIN");
+                scanner.nextLine();
+                createCharacter();
+            }
+        }
 
-        System.out.println("Finally, choose your class: mage, rogue, or warrior");
-        String characterClass = scanner.nextLine();
-        return factory.decorator(characterClass, character);
+        System.out.println("""
+                Finally, choose your class:
+                 1. Mage
+                 2. Rogue
+                 3. Warrior
+                """);
+        answer = scanner.nextInt();
+        switch (answer) {
+            case 1 -> {
+                return factory.decorator("mage", character);
+            }
+            case 2 -> {
+                return factory.decorator("rogue", character);
+            }
+            case 3 -> {
+                return factory.decorator("warrior", character);
+            }
+            default -> {
+                System.out.println("NO SUCH OPTION!!!, TRY AGAIN");
+                scanner.nextLine();
+                return createCharacter();
+            }
+        }
     }
 }
