@@ -57,3 +57,7 @@ There a lot of decorators but all them could be separated to 2 types: race and c
 *	ConcreteComponent(Character)
 *	Base Decorator(CharacterDecorator)
 *	Concrete Decorators(MageDecorator, ElfDecorator and etc)
+
+## Contributors:
+* ### [AsselK2023](https://github.com/AsselK2023)
+* ### [Nariman](https://github.com/Narimannmn)
