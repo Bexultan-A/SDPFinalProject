@@ -4,6 +4,8 @@ import battle.battleStrategies.CommonAttackStrategy;
 import battle.interfaces.IFightingStrategy;
 import characters.interfaces.ICharacter;
 
+import java.util.Scanner;
+
 public class Character implements ICharacter {
     String name;
     double HP;
@@ -102,17 +104,34 @@ public class Character implements ICharacter {
         this.intellect = intellect;
         setMana(intellect * 20);
     }
-
+    @Override
     public IFightingStrategy getFightingStrategy() {
         return fightingStrategy;
     }
-
+    @Override
     public void setFightingStrategy(IFightingStrategy fightingStrategy) {
         this.fightingStrategy = fightingStrategy;
     }
 
     @Override
     public void update(String message) {
+        Scanner scanner = new Scanner(System.in);
         System.out.println(getName() + " " + message);
+        System.out.println("""
+                Now choose your power up:\s
+                 1. agility bonus (10)
+                 2. intellect bonus(10)
+                 3. strength bonus(10)
+                """);
+        int answer = scanner.nextInt();
+        switch (answer) {
+            case 1 -> setAgility(getAgility()+10);
+            case 2 -> setIntellect(getIntellect()+10);
+            case 3 -> setStrength(getStrength()+10);
+            default -> {
+                System.out.println("No such option");
+                update(message);
+            }
+        }
     }
 }
